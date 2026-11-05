@@ -1,0 +1,28 @@
+local placeURL = "https://raw.githubusercontent.com/p90-meow-UwU/meowmeow/refs/heads/main/place"
+local script = "https://raw.githubusercontent.com/p90-meow-UwU/meowmeow/refs/heads/main/meow.lua"
+
+local success, placeResult = pcall(function()
+    return game:HttpGet(placeURL)
+end)
+
+if not success then
+    game.Players.LocalPlayer:Kick("Failed to load Place list")
+    return
+end
+
+local placeallow = loadstring("return " .. placeResult)()
+
+if not table.find(placeallow, tostring(game.PlaceId)) then
+    game.Players.LocalPlayer:Kick("Game Is not Work :(")
+else
+    -- Load and run the script from GitHub
+    local success2, scriptResult = pcall(function()
+        return game:HttpGet(script)
+    end)
+
+    if success2 then
+        loadstring(scriptResult)()
+    else
+        warn("Failed to load script from GitHub :(")
+    end
+end
